@@ -10,10 +10,10 @@ The repository follows a **monorepo design pattern**, where all 6 root modules l
 
 | Workspace Name | GitHub Repository | VCS Branch | Working Directory | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| `backend-security-ws` | `VCS-Driven-Workflow` | `backend-security-branch` | `backend-security` | IAM, Security Groups & Secrets (Backend) |
-| `frontend-security-ws` | `VCS-Driven-Workflow` | `frontend-security-branch` | `frontend-security` | IAM, Security Groups & Secrets (Frontend) |
 | `backend-network-ws` | `VCS-Driven-Workflow` | `backend-network-branch` | `backend-network` | VPC, Subnets & Route Tables (Backend) |
 | `frontend-network-ws` | `VCS-Driven-Workflow` | `frontend-network-branch` | `frontend-network` | VPC, Subnets & VPC Peering (Frontend) |
+| `backend-security-ws` | `VCS-Driven-Workflow` | `backend-security-branch` | `backend-security` | Security Groups (requiring VPC ID) & IAM |
+| `frontend-security-ws` | `VCS-Driven-Workflow` | `frontend-security-branch` | `frontend-security` | Security Groups (requiring VPC ID) & IAM |
 | `backend-compute-ws` | `VCS-Driven-Workflow` | `backend-compute-branch` | `backend-compute` | EC2 Instances & Cloud-Init User Data |
 | `frontend-compute-ws` | `VCS-Driven-Workflow` | `frontend-compute-branch` | `frontend-compute` | EC2 Instances & Cloud-Init User Data |
 
@@ -40,9 +40,9 @@ Configure these variables under your HCP Terraform Organization (**Settings ➔ 
 Every change to the infrastructure flows through a strict Gitops pull request lifecycle:
 
 1. **Develop on Branch:**
-   Checkout the dedicated module branch (e.g., `frontend-network-branch`), modify code, commit, and push.
+   Checkout the dedicated module branch (e.g., `backend-network-branch`), modify code, commit, and push.
    ```bash
-   git checkout frontend-network-branch
-   git add frontend-network/
-   git commit -m "Update VPC peering routes"
-   git push origin frontend-network-branch# VCS-Driven-Workflow
+   git checkout backend-network-branch
+   git add backend-network/
+   git commit -m "Update network configuration"
+   git push origin backend-network-branch
