@@ -45,4 +45,4 @@ Every change to the infrastructure flows through a strict Gitops pull request li
    git checkout -b feature/update-frontend-security
    git add frontend-security/
    git commit -m "Update frontend security rules"
-   git push origin feature/update-frontend-security
+   git push origin feature/update-frontend-securityz
