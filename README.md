@@ -8,14 +8,14 @@ This repository (`VCS-Driven-Workflow`) manages a multi-tier, multi-module AWS c
 
 The repository follows a **monorepo design pattern**, where all root modules live in the same codebase but map to separate **HCP Terraform Workspaces** via targeted Working Directories and glob patterns (`path/**/*`).
 
-| Workspace Name | GitHub Repository | VCS Branch | Working Directory | Glob Path Pattern | Description |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `frontend-security-ws` | `VCS-Driven-Workflow` | `main` | `frontend-security` | `frontend-security/**/*` | IAM & Security Groups (Frontend) |
-| `backend-security-ws` | `VCS-Driven-Workflow` | `main` | `backend-security` | `backend-security/**/*` | IAM & Security Groups (Backend) |
-| `backend-network-ws` | `VCS-Driven-Workflow` | `main` | `backend-network` | `backend-network/**/*` | VPC, Subnets & Route Tables (Backend) |
-| `frontend-network-ws` | `VCS-Driven-Workflow` | `main` | `frontend-network` | `frontend-network/**/*` | VPC, Subnets & VPC Peering (Frontend) |
-| `backend-compute-ws` | `VCS-Driven-Workflow` | `main` | `backend-compute` | `backend-compute/**/*` | EC2 Instances & Cloud-Init User Data |
-| `frontend-compute-ws` | `VCS-Driven-Workflow` | `main` | `frontend-compute` | `frontend-compute/**/*` | EC2 Instances & Cloud-Init User Data |
+| Execution Order | Workspace Name | GitHub Repository | VCS Branch | Working Directory | Glob Path Pattern | Description |
+| :---: | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | `backend-network-ws` | `VCS-Driven-Workflow` | `main` | `backend-network` | `backend-network/**/*` | VPC, Subnets & Route Tables (Backend) |
+| **2** | `frontend-network-ws` | `VCS-Driven-Workflow` | `main` | `frontend-network` | `frontend-network/**/*` | VPC, Subnets & VPC Peering (Frontend) |
+| **3** | `frontend-security-ws` | `VCS-Driven-Workflow` | `main` | `frontend-security` | `frontend-security/**/*` | IAM & Security Groups (Frontend) |
+| **4** | `backend-security-ws` | `VCS-Driven-Workflow` | `main` | `backend-security` | `backend-security/**/*` | IAM & Security Groups (Backend) |
+| **5** | `backend-compute-ws` | `VCS-Driven-Workflow` | `main` | `backend-compute` | `backend-compute/**/*` | EC2 Instances & Cloud-Init User Data |
+| **6** | `frontend-compute-ws` | `VCS-Driven-Workflow` | `main` | `frontend-compute` | `frontend-compute/**/*` | EC2 Instances & Cloud-Init User Data |
 
 ---
 
@@ -37,12 +37,12 @@ Configure these variables under your HCP Terraform Organization (**Settings ➔ 
 
 ## 🔄 3. CI/CD Pipeline & Pull Request Lifecycle
 
-Every change to the infrastructure flows through a strict Gitops pull request lifecycle:
+Every change to the infrastructure flows through a strict GitOps pull request lifecycle:
 
-1. **Develop on Branch:**
-   Checkout a feature branch, modify code inside a specific folder (e.g., `frontend-security/`), commit, and push.
+1. **Develop on Feature Branch:**
+   Checkout a branch for your module (e.g., `backend-network-branch`), modify code inside that directory, commit, and push.
    ```bash
-   git checkout -b feature/update-frontend-security
-   git add frontend-security/
-   git commit -m "Update frontend security rules"
-   git push origin feature/update-frontend-securityz
+   git checkout -b feature/update-backend-network
+   git add backend-network/
+   git commit -m "Update backend network subnets"
+   git push origin feature/update-backend-network
